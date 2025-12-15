@@ -1,0 +1,20 @@
+# 默认按文本处理并规范化为 LF 存储
+* text=auto eol=lf
+
+# 常见文本
+*.tex  text eol=lf
+*.bib  text eol=lf
+*.bst  text eol=lf
+*.sty  text eol=lf
+*.cls  text eol=lf
+*.md   text eol=lf
+*.txt  text eol=lf
+*.gitignore text eol=lf
+
+# Windows 脚本保留 CRLF（可选，如果你希望 bat 在 Windows 里更“原生”）
+*.bat  text eol=crlf
+
+# 二进制不做换行转换（按需补充）
+*.pdf  binary
+*.png  binary
+*.jpg  binary
