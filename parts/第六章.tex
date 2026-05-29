@@ -14,27 +14,31 @@
 
 \begin{table}[htbp]
 \centering
+\caption{策略3下的稀疏检索消融结果}
+\label{tab:gen2rwc}
 \tiny
 \resizebox{\textwidth}{!}{
-\begin{tabular}{c|cccccccc|}
-\cline{2-9}
-& \multicolumn{8}{c|}{策略3} \\ \cline{2-9}
-& \multicolumn{2}{c|}{ChartGen训练} & \multicolumn{2}{c|}{ChartRWC测试} & \multicolumn{2}{c|}{ChartRWC训练} & \multicolumn{2}{c|}{ChartGen测试} \\ \hline
-\multicolumn{1}{|c|}{图表类型} & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 \\ \hline
-\multicolumn{1}{|c|}{Bar Chart} & 0.00 & 0.01 & 0.00 & 0.00 & 0.83 & 0.86 & 0.15 & 0.18 \\ \hline
-\multicolumn{1}{|c|}{Box Plot} & 0.00 & 0.00 & 0.00 & 0.00 & 0.93 & 0.93 & 0.00 & 0.00 \\ \hline
-\multicolumn{1}{|c|}{Bubble Plot} & 0.63 & 0.80 & 0.00 & 0.00 & 0.85 & 0.90 & 0.52 & 0.60 \\ \hline
-\multicolumn{1}{|c|}{Funnel Chart} & 0.00 & 0.00 & 0.00 & 0.00 & 0.96 & 0.97 & 0.74 & 0.75 \\ \hline
-\multicolumn{1}{|c|}{Line Chart} & 0.00 & 0.00 & 0.00 & 0.00 & 0.42 & 0.52 & 0.07 & 0.11 \\ \hline
-\multicolumn{1}{|c|}{Pie Chart} & 0.19 & 0.30 & 0.00 & 0.00 & 0.77 & 0.83 & 0.33 & 0.40 \\ \hline
-\multicolumn{1}{|c|}{Radar Chart} & 0.00 & 0.00 & 0.00 & 0.00 & 0.84 & 0.87 & 0.00 & 0.00 \\ \hline
-\multicolumn{1}{|c|}{Scatter Plot} & 0.48 & 0.65 & 0.00 & 0.00 & 0.68 & 0.75 & 0.70 & 0.75 \\ \hline
-\multicolumn{1}{|c|}{Stacked Bar Chart} & 0.00 & 0.00 & 0.00 & 0.00 & 0.56 & 0.70 & 0.00 & 0.00 \\ \hline
-\multicolumn{1}{|c|}{Treemap Chart} & 0.00 & 0.00 & 0.00 & 0.00 & 0.65 & 0.73 & 0.04 & 0.05 \\ \hline
+\begin{tabular}{lcccccccc}
+\toprule
+& \multicolumn{8}{c}{策略3} \\
+\cmidrule(lr){2-9}
+图表类型 & \multicolumn{2}{c}{ChartGen训练} & \multicolumn{2}{c}{ChartRWC测试} & \multicolumn{2}{c}{ChartRWC训练} & \multicolumn{2}{c}{ChartGen测试} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+& Top1 & Top5 & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 \\
+\midrule
+Bar Chart & 0.00 & 0.01 & 0.00 & 0.00 & 0.83 & 0.86 & 0.15 & 0.18 \\
+Box Plot & 0.00 & 0.00 & 0.00 & 0.00 & 0.93 & 0.93 & 0.00 & 0.00 \\
+Bubble Plot & 0.63 & 0.80 & 0.00 & 0.00 & 0.85 & 0.90 & 0.52 & 0.60 \\
+Funnel Chart & 0.00 & 0.00 & 0.00 & 0.00 & 0.96 & 0.97 & 0.74 & 0.75 \\
+Line Chart & 0.00 & 0.00 & 0.00 & 0.00 & 0.42 & 0.52 & 0.07 & 0.11 \\
+Pie Chart & 0.19 & 0.30 & 0.00 & 0.00 & 0.77 & 0.83 & 0.33 & 0.40 \\
+Radar Chart & 0.00 & 0.00 & 0.00 & 0.00 & 0.84 & 0.87 & 0.00 & 0.00 \\
+Scatter Plot & 0.48 & 0.65 & 0.00 & 0.00 & 0.68 & 0.75 & 0.70 & 0.75 \\
+Stacked Bar Chart & 0.00 & 0.00 & 0.00 & 0.00 & 0.56 & 0.70 & 0.00 & 0.00 \\
+Treemap Chart & 0.00 & 0.00 & 0.00 & 0.00 & 0.65 & 0.73 & 0.04 & 0.05 \\
+\bottomrule
 \end{tabular}
 }
-\caption{使用策略3进行词语过滤时，稀疏检索的消融实验结果。表中展示了以 ChartGen 作为训练集（第2-5列）和以 ChartRWC 作为训练集（第6-9列）时的性能，每个数据集均在 ChartGen 和 ChartRWC 上测试。}
-\label{tab:gen2rwc}
 \end{table}
 
 \subsubsection{图表描述在稠密检索中的影响}
@@ -45,27 +49,31 @@
 
 \begin{table}[htbp]
 \centering
+\caption{混合编码稠密检索消融结果}
+\label{tab:rwc2gen}
 \tiny
 \resizebox{\textwidth}{!}{
-\begin{tabular}{c|cccccccc|}
-\cline{2-9}
-& \multicolumn{8}{c|}{文本+图像} \\ \cline{2-9}
-& \multicolumn{2}{c|}{ChartGen训练} & \multicolumn{2}{c|}{ChartRWC测试} & \multicolumn{2}{c|}{ChartRWC训练} & \multicolumn{2}{c|}{ChartGen测试} \\ \hline
-\multicolumn{1}{|c|}{图表类型} & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 \\ \hline
-\multicolumn{1}{|c|}{Bar Chart} & 0.89 & 1.00 & 0.46 & 0.85 & 0.88 & 0.90 & 0.19 & 0.41 \\ \hline
-\multicolumn{1}{|c|}{Box Plot} & 1.00 & 1.00 & 0.95 & 0.98 & 0.97 & 0.97 & 0.96 & 0.96 \\ \hline
-\multicolumn{1}{|c|}{Bubble Plot} & 1.00 & 1.00 & 0.66 & 0.86 & 0.59 & 0.60 & 0.56 & 0.59 \\ \hline
-\multicolumn{1}{|c|}{Funnel Chart} & 1.00 & 1.00 & 1.00 & 1.00 & 0.98 & 0.98 & 0.96 & 0.96 \\ \hline
-\multicolumn{1}{|c|}{Line Chart} & 0.00 & 0.00 & 0.00 & 0.00 & 0.84 & 0.87 & 0.37 & 0.44 \\ \hline
-\multicolumn{1}{|c|}{Pie Chart} & 1.00 & 1.00 & 0.89 & 0.99 & 0.97 & 0.97 & 0.96 & 1.00 \\ \hline
-\multicolumn{1}{|c|}{Radar Chart} & 1.00 & 1.00 & 0.91 & 0.95 & 0.99 & 0.99 & 1.00 & 1.00 \\ \hline
-\multicolumn{1}{|c|}{Scatter Plot} & 0.96 & 0.96 & 0.83 & 0.95 & 0.74 & 0.75 & 0.81 & 0.89 \\ \hline
-\multicolumn{1}{|c|}{Stacked Bar Chart} & 0.89 & 1.00 & 0.19 & 0.55 & 0.94 & 0.96 & 0.81 & 0.85 \\ \hline
-\multicolumn{1}{|c|}{Treemap Chart} & 0.78 & 0.89 & 0.29 & 0.47 & 0.85 & 0.85 & 0.93 & 0.96 \\ \hline
+\begin{tabular}{lcccccccc}
+\toprule
+& \multicolumn{8}{c}{文本+图像} \\
+\cmidrule(lr){2-9}
+图表类型 & \multicolumn{2}{c}{ChartGen训练} & \multicolumn{2}{c}{ChartRWC测试} & \multicolumn{2}{c}{ChartRWC训练} & \multicolumn{2}{c}{ChartGen测试} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+& Top1 & Top5 & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 \\
+\midrule
+Bar Chart & 0.89 & 1.00 & 0.46 & 0.85 & 0.88 & 0.90 & 0.19 & 0.41 \\
+Box Plot & 1.00 & 1.00 & 0.95 & 0.98 & 0.97 & 0.97 & 0.96 & 0.96 \\
+Bubble Plot & 1.00 & 1.00 & 0.66 & 0.86 & 0.59 & 0.60 & 0.56 & 0.59 \\
+Funnel Chart & 1.00 & 1.00 & 1.00 & 1.00 & 0.98 & 0.98 & 0.96 & 0.96 \\
+Line Chart & 0.00 & 0.00 & 0.00 & 0.00 & 0.84 & 0.87 & 0.37 & 0.44 \\
+Pie Chart & 1.00 & 1.00 & 0.89 & 0.99 & 0.97 & 0.97 & 0.96 & 1.00 \\
+Radar Chart & 1.00 & 1.00 & 0.91 & 0.95 & 0.99 & 0.99 & 1.00 & 1.00 \\
+Scatter Plot & 0.96 & 0.96 & 0.83 & 0.95 & 0.74 & 0.75 & 0.81 & 0.89 \\
+Stacked Bar Chart & 0.89 & 1.00 & 0.19 & 0.55 & 0.94 & 0.96 & 0.81 & 0.85 \\
+Treemap Chart & 0.78 & 0.89 & 0.29 & 0.47 & 0.85 & 0.85 & 0.93 & 0.96 \\
+\bottomrule
 \end{tabular}
 }
-\caption{基于 BGE-VL-v1.5-zs 模型并使用混合编码时的消融实验结果。表中展示了以 ChartGen 作为训练集（第2-5列）和以 ChartRWC 作为训练集（第6-9列）时的性能，每个数据集均在 ChartGen 和 ChartRWC 上测试。}
-\label{tab:rwc2gen}
 \end{table}
 
 \subsection{用户研究}
@@ -81,7 +89,7 @@
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\linewidth]{pics/Display_area.pdf}
-    \caption{检索结果展示区，从左到右依次为稀疏检索（B1）、稠密检索（B2）和RRF检索融合（B3）。三种检索方法的前五个结果按照图表与输入文本之间的相关性从上到下排列。本文根据推荐图表顺序和参与者在每一列中的选择，使用ERR算法评估推荐效果。}
+    \caption{检索结果展示区}
     \label{fig:placeholder}
 \end{figure}
 
@@ -101,17 +109,17 @@
 
 \begin{table}[htbp]
 \centering
+\caption{推荐方法评估结果}
+\label{tab:err}
 \begin{tabular}{cccc}
-\hline
+\toprule
 推荐方法 & 平均相关性 & 平均贡献度($Ave_{ERR}$) & 准确率 \\
-\hline
+\midrule
 稀疏检索 & 0.78 & 0.62 & 80\% \\
 稠密检索 & 0.82 & 0.68 & 85\% \\
 RRF & 0.84 & 0.72 & 90\% \\
-\hline
+\bottomrule
 \end{tabular}
-\caption{三种不同推荐方法的评估指标汇总}
-\label{tab:err}
 \end{table}
 
 \subsubsection{用户体验评估}
@@ -121,7 +129,7 @@ RRF & 0.84 & 0.72 & 90\% \\
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\linewidth]{pics/user_study.pdf}
-    \caption{问卷调查统计。Q1-Q3针对三种推荐方法，Q4和Q5针对推荐系统。右下角展示了5分制李克特量表对应的颜色列表。}
+    \caption{用户研究问卷结果}
     \label{fig:userstudy}
 \end{figure}
 

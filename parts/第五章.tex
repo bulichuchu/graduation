@@ -5,7 +5,7 @@
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{pics/retrieve.pdf}
-    \caption{本文混合图表推荐检索流程。该流程将用于词法匹配的稀疏检索（倒排索引）与用于语义理解的稠密检索（向量搜索）结合，并通过RRF算法聚合结果生成最终排序。}
+    \caption{混合图表推荐检索流程}
     \label{fig:Retrieve}
 \end{figure}
 
@@ -33,27 +33,31 @@ $\bullet$ \textbf{策略3：} 剔除实体、停用词、助动词、介词、�
 
 \begin{table}[htbp]
 \centering
+\caption{稀疏检索性能对比}
+\label{tab:srt}
 \tiny
 \resizebox{\textwidth}{!}{
-\begin{tabular}{c|cccc|cccc|cccc|}
-\cline{2-13}
-& \multicolumn{4}{c|}{策略1} & \multicolumn{4}{c|}{策略2} & \multicolumn{4}{c|}{策略3} \\ \cline{2-13}
-& \multicolumn{2}{c|}{ChartGen} & \multicolumn{2}{c|}{ChartRWC} & \multicolumn{2}{c|}{ChartGen} & \multicolumn{2}{c|}{ChartRWC} & \multicolumn{2}{c|}{ChartGen} & \multicolumn{2}{c|}{ChartRWC} \\ \hline
-\multicolumn{1}{|c|}{图表类型} & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 \\ \hline
-\multicolumn{1}{|c|}{Bar Chart} & 0.00 & 0.00 & 0.69 & 0.78 & 0.11 & 0.12 & 0.06 & 0.15 & 0.00 & 0.01 & 0.83 & 0.86 \\ \hline
-\multicolumn{1}{|c|}{Box Plot} & 0.00 & 0.00 & 0.65 & 0.74 & 0.00 & 0.00 & 0.01 & 0.01 & 0.00 & 0.00 & 0.93 & 0.93 \\ \hline
-\multicolumn{1}{|c|}{Bubble Plot} & 0.07 & 0.48 & 0.81 & 0.87 & 0.63 & 0.80 & 0.28 & 0.46 & 0.63 & 0.80 & 0.85 & 0.90 \\ \hline
-\multicolumn{1}{|c|}{Funnel Chart} & 0.00 & 0.00 & 0.97 & 0.97 & 0.00 & 0.00 & 0.90 & 0.93 & 0.00 & 0.00 & 0.96 & 0.97 \\ \hline
-\multicolumn{1}{|c|}{Line Chart} & 0.00 & 0.00 & 0.21 & 0.29 & 0.00 & 0.00 & 0.06 & 0.18 & 0.00 & 0.00 & 0.42 & 0.52 \\ \hline
-\multicolumn{1}{|c|}{Pie Chart} & 0.00 & 0.44 & 0.19 & 0.32 & 0.19 & 0.30 & 0.00 & 0.00 & 0.19 & 0.30 & 0.77 & 0.83 \\ \hline
-\multicolumn{1}{|c|}{Radar Chart} & 0.00 & 0.00 & 0.68 & 0.72 & 0.00 & 0.00 & 0.55 & 0.58 & 0.00 & 0.00 & 0.84 & 0.87 \\ \hline
-\multicolumn{1}{|c|}{Scatter Plot} & 0.15 & 0.43 & 0.49 & 0.57 & 0.48 & 0.66 & 0.01 & 0.01 & 0.48 & 0.65 & 0.68 & 0.75 \\ \hline
-\multicolumn{1}{|c|}{Stacked Bar Chart} & 0.00 & 0.00 & 0.18 & 0.27 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.56 & 0.70 \\ \hline
-\multicolumn{1}{|c|}{Treemap Chart} & 0.00 & 0.00 & 0.44 & 0.53 & 0.00 & 0.00 & 0.09 & 0.24 & 0.00 & 0.00 & 0.65 & 0.73 \\ \hline
+\begin{tabular}{lcccccccccccc}
+\toprule
+& \multicolumn{4}{c}{策略1} & \multicolumn{4}{c}{策略2} & \multicolumn{4}{c}{策略3} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}\cmidrule(lr){10-13}
+图表类型 & \multicolumn{2}{c}{ChartGen} & \multicolumn{2}{c}{ChartRWC} & \multicolumn{2}{c}{ChartGen} & \multicolumn{2}{c}{ChartRWC} & \multicolumn{2}{c}{ChartGen} & \multicolumn{2}{c}{ChartRWC} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}\cmidrule(lr){10-11}\cmidrule(lr){12-13}
+& Top1 & Top5 & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 \\
+\midrule
+Bar Chart & 0.00 & 0.00 & 0.69 & 0.78 & 0.11 & 0.12 & 0.06 & 0.15 & 0.00 & 0.01 & 0.83 & 0.86 \\
+Box Plot & 0.00 & 0.00 & 0.65 & 0.74 & 0.00 & 0.00 & 0.01 & 0.01 & 0.00 & 0.00 & 0.93 & 0.93 \\
+Bubble Plot & 0.07 & 0.48 & 0.81 & 0.87 & 0.63 & 0.80 & 0.28 & 0.46 & 0.63 & 0.80 & 0.85 & 0.90 \\
+Funnel Chart & 0.00 & 0.00 & 0.97 & 0.97 & 0.00 & 0.00 & 0.90 & 0.93 & 0.00 & 0.00 & 0.96 & 0.97 \\
+Line Chart & 0.00 & 0.00 & 0.21 & 0.29 & 0.00 & 0.00 & 0.06 & 0.18 & 0.00 & 0.00 & 0.42 & 0.52 \\
+Pie Chart & 0.00 & 0.44 & 0.19 & 0.32 & 0.19 & 0.30 & 0.00 & 0.00 & 0.19 & 0.30 & 0.77 & 0.83 \\
+Radar Chart & 0.00 & 0.00 & 0.68 & 0.72 & 0.00 & 0.00 & 0.55 & 0.58 & 0.00 & 0.00 & 0.84 & 0.87 \\
+Scatter Plot & 0.15 & 0.43 & 0.49 & 0.57 & 0.48 & 0.66 & 0.01 & 0.01 & 0.48 & 0.65 & 0.68 & 0.75 \\
+Stacked Bar Chart & 0.00 & 0.00 & 0.18 & 0.27 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.56 & 0.70 \\
+Treemap Chart & 0.00 & 0.00 & 0.44 & 0.53 & 0.00 & 0.00 & 0.09 & 0.24 & 0.00 & 0.00 & 0.65 & 0.73 \\
+\bottomrule
 \end{tabular}
 }
-\caption{使用三种不同词语过滤策略在 ChartGen 和 ChartRWC 数据集上进行稀疏检索的性能}
-\label{tab:srt}
 \end{table}
 
 \subsection{稠密检索}
@@ -78,27 +82,31 @@ V_s = \Phi(s), \quad \text{where} \quad V_s \in \mathbb{R}^d
 
 \begin{table}[htbp]
 \centering
+\caption{稠密检索性能对比}
+\label{tab:drrwc}
 \tiny
 \resizebox{\textwidth}{!}{
-\begin{tabular}{c|cccc|cccc|}
-\cline{2-9}
-& \multicolumn{4}{c|}{文本} & \multicolumn{4}{c|}{文本+图像} \\ \cline{2-9}
-& \multicolumn{2}{c|}{ChartGen} & \multicolumn{2}{c|}{ChartRWC} & \multicolumn{2}{c|}{ChartGen} & \multicolumn{2}{c|}{ChartRWC} \\ \hline
-\multicolumn{1}{|c|}{图表类型} & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 \\ \hline
-\multicolumn{1}{|c|}{Bar Chart} & 0.89 & 1.00 & 0.82 & 0.88 & 0.89 & 1.00 & 0.88 & 0.90 \\ \hline
-\multicolumn{1}{|c|}{Box Plot} & 1.00 & 1.00 & 0.97 & 0.97 & 1.00 & 1.00 & 0.97 & 0.97 \\ \hline
-\multicolumn{1}{|c|}{Bubble Plot} & 1.00 & 1.00 & 0.63 & 0.63 & 1.00 & 1.00 & 0.59 & 0.60 \\ \hline
-\multicolumn{1}{|c|}{Funnel Chart} & 1.00 & 1.00 & 0.97 & 0.97 & 1.00 & 1.00 & 0.98 & 0.98 \\ \hline
-\multicolumn{1}{|c|}{Line Chart} & 0.00 & 0.00 & 0.79 & 0.84 & 0.00 & 0.00 & 0.84 & 0.87 \\ \hline
-\multicolumn{1}{|c|}{Pie Chart} & 0.96 & 1.00 & 0.98 & 0.99 & 1.00 & 1.00 & 0.97 & 0.97 \\ \hline
-\multicolumn{1}{|c|}{Radar Chart} & 1.00 & 1.00 & 0.99 & 0.99 & 1.00 & 1.00 & 0.99 & 0.99 \\ \hline
-\multicolumn{1}{|c|}{Scatter Plot} & 1.00 & 1.00 & 0.81 & 0.83 & 0.96 & 0.96 & 0.74 & 0.75 \\ \hline
-\multicolumn{1}{|c|}{Stacked Bar Chart} & 0.89 & 0.96 & 0.94 & 0.95 & 0.89 & 1.00 & 0.94 & 0.96 \\ \hline
-\multicolumn{1}{|c|}{Treemap Chart} & 0.52 & 0.70 & 0.85 & 0.86 & 0.78 & 0.89 & 0.85 & 0.85 \\ \hline
+\begin{tabular}{lcccccccc}
+\toprule
+& \multicolumn{4}{c}{文本} & \multicolumn{4}{c}{文本+图像} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+图表类型 & \multicolumn{2}{c}{ChartGen} & \multicolumn{2}{c}{ChartRWC} & \multicolumn{2}{c}{ChartGen} & \multicolumn{2}{c}{ChartRWC} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+& Top1 & Top5 & Top1 & Top5 & Top1 & Top5 & Top1 & Top5 \\
+\midrule
+Bar Chart & 0.89 & 1.00 & 0.82 & 0.88 & 0.89 & 1.00 & 0.88 & 0.90 \\
+Box Plot & 1.00 & 1.00 & 0.97 & 0.97 & 1.00 & 1.00 & 0.97 & 0.97 \\
+Bubble Plot & 1.00 & 1.00 & 0.63 & 0.63 & 1.00 & 1.00 & 0.59 & 0.60 \\
+Funnel Chart & 1.00 & 1.00 & 0.97 & 0.97 & 1.00 & 1.00 & 0.98 & 0.98 \\
+Line Chart & 0.00 & 0.00 & 0.79 & 0.84 & 0.00 & 0.00 & 0.84 & 0.87 \\
+Pie Chart & 0.96 & 1.00 & 0.98 & 0.99 & 1.00 & 1.00 & 0.97 & 0.97 \\
+Radar Chart & 1.00 & 1.00 & 0.99 & 0.99 & 1.00 & 1.00 & 0.99 & 0.99 \\
+Scatter Plot & 1.00 & 1.00 & 0.81 & 0.83 & 0.96 & 0.96 & 0.74 & 0.75 \\
+Stacked Bar Chart & 0.89 & 0.96 & 0.94 & 0.95 & 0.89 & 1.00 & 0.94 & 0.96 \\
+Treemap Chart & 0.52 & 0.70 & 0.85 & 0.86 & 0.78 & 0.89 & 0.85 & 0.85 \\
+\bottomrule
 \end{tabular}
 }
-\caption{使用两种不同训练策略在 ChartGen 和 ChartRWC 数据集上进行稠密检索的性能}
-\label{tab:drrwc}
 \end{table}
 
 \subsection{倒数排序融合}
@@ -120,7 +128,7 @@ V_s = \Phi(s), \quad \text{where} \quad V_s \in \mathbb{R}^d
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{pics/Interface.pdf}
-  \caption{系统界面概览。该界面由四个主要区域构成：（A）文本输入区，用于提交自然语言文本；（B）检索结果展示区，并列展示稀疏检索（B1）、稠密检索（B2）和RRF融合（B3）三种结果；（C）图表编辑区，提供对结果图表的交互式修改功能；（D）历史记录区，用于追溯和管理创建的图表。}
+  \caption{系统界面概览}
   \label{fig:teaser}
 \end{figure}
 

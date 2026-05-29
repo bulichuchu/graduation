@@ -127,7 +127,7 @@
 	bibname = {\siyuanheitiBold\zihao{3}参考文献},
 	contentsname = {\siyuanheitiBold\zihao{3}目\hspace{1em}录},
 	listfigurename = {\siyuanheitiBold\zihao{3}图目录},
-	listtablename = {\siyuanheitiBold\zihao{3}代码清单},
+	listtablename = {\siyuanheitiBold\zihao{3}表目录},
 	figurename = {图},
 	tablename = {表},
 	section/name = {第,章},
@@ -324,16 +324,21 @@
 		\phantomsection
 		\addcontentsline{toc}{section}{目\hspace{1em}录}
 		\tableofcontents
-		
+
 		\pagebreak	
 		\phantomsection
 		\addcontentsline{toc}{section}{图目录}
 		\centering\listoffigures
-		
+
 		\pagebreak	
 		\phantomsection
-		\addcontentsline{toc}{section}{代码清单}
-		\centering\lstlistoflistings
+		\addcontentsline{toc}{section}{表目录}
+		\centering\listoftables
+		
+		% \pagebreak	
+		% \phantomsection
+		% \addcontentsline{toc}{section}{代码清单}
+		% \centering\lstlistoflistings
 		
 		\pagebreak	
 	}
