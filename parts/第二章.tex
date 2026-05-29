@@ -1,102 +1,41 @@
-\section{模板简介}
-
-本模板基于$\LaTeXe$。$\LaTeXe$目前来说主流的地位不可撼动，已有的解决方案多。
-
-$\LaTeXe$编译引擎用xeLaTeX，基于“内容和格式相分离”的理念，格式和内容分开。
-
-将源文件分割成若干个文件，例如将每章内容单独写在一个文件中，会大大简化修改和校对的工作。重新编译最好删除辅助文件，特别是遇到目录、参考文献有报错的时候。双击del.bat文件即可删除辅助文件。
+\section{相关理论和技术}
 
 
+\subsection{自动图表生成}
+
+自动图表生成面向的核心问题是如何把用户表达的分析意图稳定地映射为可视化结构。早期研究通常建立在结构化数据输入之上，系统预设字段语义并在候选图表空间内完成匹配与渲染~\cite{dibia_lida_2023}。这一路径在工程实践中具有较高可控性，因为输入模式、图表约束和输出格式都可被显式定义。围绕该路径形成的代表性工作，一部分聚焦“文本到图表”的生成链路~\cite{zhao_ct2c-qa_2024,rashid_text2chart_2022}，另一部分聚焦“表格到可视化”的推理链路~\cite{jain_doc2chart_2025}。两类方法在实现细节上有所差异，但共同前提都指向输入数据具有较好的规整性与可解析性。
+
+当输入由单一表格扩展到文档、图像或多模态线索时，系统能力边界开始显现。已有研究显示，即便引入更强的跨模态理解机制，许多方法仍在不同程度上依赖既有数据结构~\cite{latif_kori_2022,shuai_deepvis_2025}。这种依赖使方法在“结构明确、目标单一”的任务下表现较好~\cite{luo_deepeye_2018,cui_text--viz_2020}，但在“语义含糊、意图混合”的真实写作场景中容易出现推荐失配。根本原因在于，用户文本中的比较关系、强调重点、时间语境和叙述目标往往交织出现，而这些信息难以通过单一字段映射被完整刻画~\cite{masry_unichart_2023}。
+
+研究重心随之由“静态映射”转向“生成与推理协同”。一方面，图表到代码、文本到图表等任务为自动化可视化提供了更完整的工具~\cite{yang_chartmimic_2025,wu_plot2code_2025}；另一方面，多模态大语言模型的快速发展提升了系统对复杂视觉模式与上下文线索的利用能力~\cite{openai_gpt-4vision_2023,gemini_family_2025,anthropic_introducing_2024}。以 LLaVA 系列与 ChartLlama 为代表的工作~\cite{liu_visual_2023,liu_improved_2024,han_chartllama_2023}，以及 Qwen-VL 技术路线~\cite{bai_qwen_technical_2023}，都在一定程度上缓解了早期方法对人工规则的依赖，使系统能够在更弱结构先验下完成图表理解与生成。
+
+尽管如此，现阶段系统在“结构忠实性”与“语义一致性”上的矛盾仍未完全解决。相关研究指出，模型生成的图表代码可能在语法层面可执行，但在数据绑定、图元对应和视觉编码选择上仍出现偏差~\cite{kondic_chartgen_2025}。同时，自然语言驱动的可视化生成虽显著降低了使用门槛~\cite{wang_towards_2022,lu_automatic_2021,wang_making_2023}，却普遍面临图表类型覆盖有限、复杂约束难表达的问题。交互式增强策略能够改善单轮生成不足~\cite{masson_charagraph_2023,zou_gistvis_2025}，但多数系统仍将注意力集中于显式数值信息，对非数值语义和任务意图的建模深度不够。
 
 
-\subsection{封面}
+\subsection{图表数据集}
 
-需要在main.tex文件的导言区修改以下个人信息，然后在正文部分使用\verb|\Cover|制作封面。
+数据集是图表理解、图表生成与图表推荐任务共同依赖的基础设施，数据组织方式直接影响模型学习到的知识边界~\cite{hu_novachart_2024}。从构建策略看，现有图表数据集可概括为合成数据集、真实世界数据集与混合数据集三类。合成数据集通过程序化管线批量生产样本，在规模扩展、标注一致性和成本控制方面具有明显优势~\cite{kafle_dvqa_2018}。这类数据通常来自在线资源抽取后的再组织~\cite{tang_vistext_2023,akhtar_reading_2023,li_chartgalaxy_2025}，或由大语言模型辅助生成数据语境与任务指令~\cite{xia_chartx_2025,zhao_chartcoder_2025}。对模型训练而言，合成数据能够迅速建立“图形-文本-代码”三者之间的基础映射关系。
 
-\begin{lstlisting}
-	%封面、中文摘要信息
-	\myname{你的名字}
-	\studentid{你的学号}
-	\major{你的专业}
-	\thesis{你的论文题目}
-	\department{理学院}
-	\mysupervisor{你的导师}
-	\class{所在班级}
-\end{lstlisting}
+合成路径的局限也较为明显。程序化生成过程容易在样式选择、布局策略和叙述语境上形成模板偏置，导致模型在标准样例上表现稳定、在复杂真实样例上泛化不足。与之相比，真实世界数据集覆盖了更多人工设计痕迹与场景噪声，能够更充分反映图表在传播语境中的实际使用形态~\cite{zhou_table2charts_2021}。相关工作从网站平台收集图表样本~\cite{savva_revision_2011,kantharaj_chart--text_2022,masry_chartqa_2022,huang_evochart_2025}，或从出版物与学术资料中提取图表与配套信息~\cite{wu_plot2code_2025,yang_matplotagent_2024,wang_charxiv_2024,zhang_is_2024}，在类型多样性和视觉复杂度上具有优势。问题在于，真实数据通常伴随标注昂贵、质量控制复杂与字段缺失等现实约束，数据规模难以线性提升。
+
+混合数据集因此成为当前较具可行性的折中方案。其核心思路是将合成数据用于扩展规模和覆盖基础模式，将真实数据用于补足分布多样性和语义复杂性，从而在训练阶段形成更平衡的数据分布~\cite{liu_deplot_2023,meng_chartassistant_2024,liu_matcha_2023}。这一路径有助于降低模型对单一数据生成机制的依赖，也有助于提升跨场景迁移能力。对本研究关注的“文本到图表类型推荐”任务而言，混合数据策略同样具有现实意义，因为用户输入文本经常同时包含结构化线索与非结构化语义，需要训练数据能够覆盖两类信息的耦合关系。
+
+从数据形态看，当前图表数据集已从单一图像样本扩展为多模态样本单元，常见组成包括位图、矢量描述、表格数据、文本说明与程序代码。数据字段的丰富化使模型能够在训练中同时学习视觉结构、语言语义与程序表达的对应关系。近期工作继续扩大图表类型覆盖与元数据维度~\cite{wang_omni-chart-600k_2025,liu_mmc_2024}，并在任务层面支持更复杂的生成与理解目标。以 Text2Chart31 为例，其统一描述、代码、数据表与图表的组织方式~\cite{zadeh_text2chart31_2024}，为研究者开展跨模态对齐、可解释推荐与端到端生成提供了更完整的数据基础。
 
 
-\subsection{诚信承诺书和任务书}
+\subsection{图表创作工具}
 
-将你的诚信承诺书转成pdf文件后放入pdf文件夹
+图表创作工具的发展路线反映了可视化系统从“高效率生产”向“高表达能力与低门槛协同”演进的过程。早期主流工具强调通过界面化配置快速完成标准图表制作，例如 Tableau 等系统通过字段拖拽与视觉通道映射降低了入门难度~\cite{tableau_business_2025}。这类工具在报表场景和常规分析任务中具有较高实用性，但其交互逻辑通常围绕预设图表语法展开，当用户需要表达复杂叙事结构或非常规视觉风格时，扩展能力会受到限制。
 
-\begin{lstlisting}
-	\includepdf{pdf/诚信承诺书.pdf}
-	\includepdf{pdf/任务书.pdf}
-\end{lstlisting}
+后续研究开始将“表达性”作为工具设计的关键目标。Data-Driven Guides、DataInk 和 Data Illustrator 等系统~\cite{kim_data-driven_2016,xia_dataink_2018,liu_data_2018}，通过更细粒度的图形控制机制，使用户能够在数据约束下定义图元关系、重复策略与布局规则。与传统模板式工具相比，这类系统提升了可视化设计空间的可探索性，也使用户能够在准确编码数据的同时兼顾视觉叙事。然而，表达能力提升常常伴随交互复杂度上升，非专家用户在参数理解、约束设置与设计决策上仍需较高学习成本。
 
-\subsection{摘要}
+编程式可视化工具提供了另一条路径。D3、ECharts 与 Vega-Lite~\cite{bostock_d3_2011,li_echarts_2018,satyanarayan_vega-lite_2016} 通过声明式或命令式方式描述视觉编码逻辑，具备更强可复用性与可扩展性，能够支持交互行为、动画过渡与复杂组合图的精细控制。该路径对工程场景十分友好，适合与 Web 系统、分析平台和自动化流程集成。代价在于，用户需要具备编程基础，并理解图表语法、数据绑定机制与运行环境配置，使用门槛显著高于可视化界面工具。
 
-需要在main.tex文件的导言区修改以下个人信息：
-
-\begin{lstlisting}
-	%英文摘要信息
-	\Enthesis{你的英文摘要标题}
-	\Enmyname{你的英文名}
-	\Enmysupervisor{导师的英文名}
-	\Endepartment{College of Science}
-\end{lstlisting}
-
-在\verb|\ZhAbstract{中文摘要内容}{关键词1\hspace{1em}关键词2}|中第一个花括号中写入中文摘要，在第二个花括号中填入关键词
-
-在\verb|\EnAbstract{Contents of English Abstract}{Keywords1;Keywords2;}|中第一个花括号中写入英文摘要，在第二个花括号中填入英文关键词
+为了弥合“高表达能力”与“低使用门槛”之间的矛盾，研究者进一步引入草图驱动与检索增强机制。SketchInsight、DataQuilt 等工作~\cite{lee_sketchinsight_2015,zhang_dataquilt_2020} 将原型草图、视觉元素提取与延迟绑定结合起来，支持用户在较弱形式化输入下快速探索设计方向，并在后续阶段补全数据约束。相关研究还通过风格迁移和布局学习提升设计效率~\cite{ma_ladv_2020}，使创作流程由“从零构造”转向“示例引导与局部编辑”。近期方法将视觉编辑与数据驱动生成进一步整合~\cite{coelho_infomages_2020,qian_retrieve-then-adapt_2020}，并使用检索式策略复用已有设计知识，帮助非专家更快获得可接受结果~\cite{shi_supporting_2022}。
 
 
-\subsection{目录、图列、表列}
+\subsection{本章小结}
 
-以下是目录、表列、图列的生成，以及之后的页码用阿拉伯数字，不需要更改。不需要人为添加，插入图片、表格时会自动生成索引。
-
-\begin{lstlisting}
-	%目录，表列、图列
-	\makeTOCandLOTandLOF
-	%页码计数器清零，阿拉伯数字
-	\setcounter{page}{0}
-	\pagenumbering{arabic}
-	\newpage
-\end{lstlisting}
-
-\subsection{正文}
-
-将源文件分割成若干个文件，例如将每章内容单独写在一个文件中，会大大简化修改和校对的工作。建议把每个章节放在parts文件夹中，用\verb|\input{parts/xxxx}|来导入，不需要加.tex后缀。
-
-\begin{lstlisting}
-	\input{parts/第一章}
-	\input{parts/第二章}
-\end{lstlisting}
-
-\subsection{参考文献}
-
-\verb|\bibliography{bib文件}|更改为你的bib文件，用\verb|\cite{xxx}|在文中引用。浙江工业大学参照《文后参考文献著录规则》（GBT 7714-2005）执行，gbt7714.sty和gbt7714-2005-unsrt.bst文件已在cls文件中定义了格式。以下代码只需改成你的ref.bib文档，不需要后缀
-
-\begin{lstlisting}
-	\newpage
-	\bibliography{ref}
-	\addcontentsline{toc}{section}{参考文献}
-\end{lstlisting}
-
-\subsection{致谢}
-
-代码无需修改，修改parts/致谢文件即可。
-
-\begin{lstlisting}
-\makeAcknowledge{\input{parts/致谢}}
-\end{lstlisting}
-
-\subsection{附录}
-
-有附录的话修改parts/附录，没有附录的话删除本条代码
-
-\begin{lstlisting}
-	\makeAppendix{\input{parts/附录}}
-\end{lstlisting}
+本章围绕本文研究所依赖的关键理论与技术基础展开梳理。自动图表生成相关研究表明，现有方法在结构化输入场景下已形成较成熟流程，但在真实文本语境中仍面临语义歧义、结构忠实性不足和类型覆盖受限等问题。图表数据集研究显示，合成、真实与混合数据各有优势与边界，数据构建策略正在由单一规模扩张转向规模、质量与任务适配协同优化。图表创作工具的发展则揭示了可视化系统在表达能力与使用门槛之间长期存在的张力，前置推荐机制与后续交互编辑的协同路径具有明确工程价值。基于上述分析，本文后续章节将进一步给出面向文本到图表类型推荐任务的数据构建方案、混合检索方法设计与系统实现细节，以验证所提技术路线的可行性与有效性。
 
 \newpage
