@@ -2,19 +2,17 @@
 \documentclass{ZJUTbachelor}
 
 %封面、中文摘要信息
-\myname{李飞飞}
-\studentid{202105710309}
+\myname{付子航}
+\studentid{202203151007}
 \major{软件工程}
-\thesis{你的论文题目}
+\thesis{基于混合检索的图表类型推荐系统设计与实现}
 \department{计算机学院}
 \mysupervisor{孙国道}
-\class{软工2206}
+\class{软工2203}
 \submitdate{2026年6月}
 
 %英文摘要信息
-\Enthesis{ENGLISH DISSERTATION TITLE ENGLISH 
-
-DISSERTATION TITLE ENGLISH}
+\Enthesis{DESIGN AND IMPLEMENTATION OF A CHART TYPE RECOMMENDATION SYSTEM BASED ON HYBRID RETRIEVAL}
 
 
 
@@ -26,8 +24,8 @@ DISSERTATION TITLE ENGLISH}
 
 
 %——————————————————————————————————————诚信承诺书和任务书—————————————————————————————————————	
-	\includepdf{pdf/诚信承诺书.pdf}
-	\includepdf{pdf/任务书.pdf}
+	% \includepdf{pdf/诚信承诺书.pdf}
+	% \includepdf{pdf/任务书.pdf}
 %———————————————————————————————————————end—————————————————————————————————————————————————
 
 
@@ -36,17 +34,23 @@ DISSERTATION TITLE ENGLISH}
 	
 %—————————————————————————————————————中文摘要———————————————————————————————————————————————	
 	\ZhAbstract{
-		这是中文摘要第一段内容。中文摘要应表达毕业设计工作的核心内容，简短明了。可分三段，第一段，说明题目的背景和目的；第二段，介绍所用的方法，包括基本原理﹑开发工具、关键技术等；第三段，介绍开发工作的结果﹑性能、分析﹑评价等。中文摘要内容中文摘要内容中文摘要内容中文摘要内容中文摘要内容中文摘要内容。
+		随着数据可视化在科研、商业分析和公共传播等场景中的持续普及，如何将自然语言中的表达意图准确映射为合适的图表类型，已成为提升信息传达效率与可理解性的重要问题。现有研究更多聚焦于图表绘制流程和视觉设计优化，而面向自然语言输入的图表类型推荐仍面临推荐准确率不足、候选结果多样性有限、非专家用户使用门槛较高等挑战。
 		
-		这是中文摘要第二段内容。摘要一律采用第三人称写法。中文摘要内容中文摘要内容中文摘要内容中文摘要内容中文摘要内容中文摘要内容中文摘要内容中文摘要内容中文摘要内容中文摘要内容中文摘要内容中文摘要内容中文摘要内容中文摘要内容。
-	}{关键词1，关键词2，关键词3，关键词4，关键词5}
+		针对上述问题，本文提出一条面向自然语言驱动图表类型推荐的端到端流程。首先，构建由图表样本及其文本描述组成的多模态数据集，为推荐任务训练与评测提供数据基础；其次，在推荐阶段并行采用稀疏检索与稠密检索两种互补策略，分别捕捉文本中的显式关键词线索与深层语义相似性；再次，利用倒数排序融合（Reciprocal Rank Fusion, RRF）算法整合两路检索结果，在保证推荐相关性的同时提升候选结果覆盖度与稳定性；最后，将推荐结果接入图表编辑器，支持用户将文本中的数值信息交互式转换为可视化输出并进行进一步调整。
+		
+		本文通过消融实验与用户调研对所提方法进行验证。实验结果表明，混合检索与融合排序策略能够有效提升图表类型推荐表现；用户调研结果进一步显示，该流程在实用性与可用性方面具有积极作用，可为自然语言到图表的智能化生成提供可落地的技术方案。
+	}{图表类型推荐，混合检索，自动图表生成，多模态数据集，数据可视化 }
 %———————————————————————————————————————end——————————————————————————————————————————————————
 
 
 
 
 %—————————————————————————————————————英文摘要———————————————————————————————————————————————	
-	\EnAbstract{Contents of English Abstract Contents of English Abstract Contents of English Abstract Contents of English Abstract Contents of English Abstract Contents of English Abstract Contents of English Abstract Contents of English Abstract }{key word 1, key word 2, key word 3, key word 4}
+	\EnAbstract{With the widespread adoption of data visualization in scientific research, business analytics, and public communication, mapping textual intent to appropriate chart types has become an important problem for improving both communication efficiency and interpretability. Existing studies mainly focus on chart rendering pipelines and visual design quality, while chart type recommendation from natural language still faces limitations in recommendation accuracy, candidate diversity, and usability for non-expert users.
+	
+	This thesis proposes an end-to-end pipeline for natural-language-driven chart type recommendation. First, we construct a multimodal dataset consisting of chart samples and textual descriptions to support model development and evaluation. Second, we combine two complementary retrieval strategies, sparse retrieval and dense retrieval, to capture both explicit lexical cues and deeper semantic similarity in user input. Third, we apply Reciprocal Rank Fusion (RRF) to merge the two retrieval streams, improving ranking robustness while balancing relevance and diversity of recommended chart types. Finally, the recommendation module is integrated with a chart editor so that users can interactively transform numerical information in text into visual outputs and refine them in practice.
+	
+	We evaluate the proposed approach through ablation experiments and user studies. Results show that the hybrid retrieval plus fusion strategy improves recommendation quality, and user feedback further indicates clear gains in usefulness and usability. The proposed pipeline provides a practical technical path for intelligent chart generation from natural language.}{Chart Type Recommendation, Hybrid Retrieval, Automatic Chart Generation, Multimodal Dataset, Data Visualization}
 %—————————————————————————————————————————end————————————————————————————————————————————————
 
 
@@ -69,6 +73,11 @@ DISSERTATION TITLE ENGLISH}
 	\input{parts/第一章}
 	\input{parts/第二章}
 	\input{parts/第三章}
+	\input{parts/第四章}
+	\input{parts/第五章}
+	\input{parts/第六章}
+	\input{parts/第七章}
+	\input{parts/第八章}
 %———————————————————————————————————————end——————————————————————————————————————————————————
 
 %——————————————————————————————————————参考文献——————————————————————————————————————————————
@@ -89,7 +98,7 @@ DISSERTATION TITLE ENGLISH}
 
 
 %——————————————————————————————————————附录—————————————————————————————————————————————————
-	\makeAppendix{\input{parts/附录}}
+	% \makeAppendix{\input{parts/附录}}
 %———————————————————————————————————————end——————————————————————————————————————————————————
 
 \end{document}

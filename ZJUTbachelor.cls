@@ -11,11 +11,17 @@
 %7.设置中英文摘要的样式
 %8.设置封面样式
 %9.设置参考文献格式，采用GBT7714 2005版
-\ProvidesClass{ZJUTbachelor}[2025/12/09 2026年计算机学院本科毕业论文Edited by李飞飞 原项目作者@方昊宇https://github.com/AsukaEva2/ZJUTbachelor ]
+\ProvidesClass{ZJUTbachelor}[2026/06/01 浙江工业大学 计算机学院2026届本科毕业论文 李飞飞]
 %默认小四号字体，a4纸张，1.25倍行距（LaTeX中单倍行距为字体的1.2倍，word中单倍行距是字体的1.3倍）因此1.25*1.3/1.2=1.3541667
-\LoadClass[zihao=-4,a4paper,linespread=1.3541667,UTF8,fontset=none]{ctexart} 
+\LoadClass[zihao=-4,a4paper,linespread=1.3541667,UTF8,fontset=windows]{ctexart} 
+
+% 移除全局伪加粗，因为黑体本身已经足够粗，不需要额外加粗
+% 单独为封面等需要宋体加粗的地方定义字体
+\setCJKfamilyfont{songtibf}{SimSun}[AutoFakeBold=true]
+\newcommand*{\songtiBold}{\CJKfamily{songtibf}\bfseries}
 
 \RequirePackage{pdfpages} %用于嵌入pdf
+%\RequirePackage{cite} %破折号连接连续引用（与gbt7714的natbib冲突，注释掉以启用上标引用）
 \RequirePackage[cal=rsfso]{mathalfa}
 \RequirePackage{amsfonts,amssymb,amsmath,amscd,bm} %数学包
 \RequirePackage{array} %增强了tabular环境的功能，可以更好的排版表格。
@@ -48,20 +54,14 @@
 \newcommand*{\neweqref}[1]{公式~\eqref{#1}~}
 
 \RequirePackage{xcolor} % 提供 \set@color 等钩子，避免相关报错
-\RequirePackage{hyperref} %超链接
+\RequirePackage[bookmarksnumbered=true]{hyperref} %超链接
 \hypersetup{hidelinks} %不显示颜色框
 
 \RequirePackage{fontspec} %字体设置
 \setmainfont{Times New Roman} %西文字体Times New Roman
 \setmonofont{Courier New} %等宽字体
 % 明确设置中文主字体、无衬线字体、等宽字体，并提供 \songti/\heiti 命令
-\setCJKmainfont{Source Han Serif CN}
-\setCJKsansfont{Source Han Sans SC}
-\setCJKmonofont{Source Han Sans SC} %中文等宽使用思源黑体
-\setCJKfamilyfont{songti}{Source Han Serif CN}
-\newcommand*{\songti}{\CJKfamily{songti}}
-\setCJKfamilyfont{heiti}{Source Han Sans SC}[BoldFont=*-Medium]
-\newcommand*{\heiti}{\CJKfamily{heiti}}
+% 已在 LoadClass 中使用 fontset=windows，自动配置宋体、黑体等标准字体
 
 \RequirePackage{geometry}  % 页面设置
 \geometry{a4paper,left=3.18cm,right=3.18cm,top=2.54cm,bottom=2.54cm} %版面页边距上下2.54cm，左右3.18cm
@@ -106,7 +106,7 @@
 \renewcommand{\cftsubsubsecpagefont}{\songti\zihao{-4}}
 \renewcommand{\cftfigpagefont}{\songti\zihao{-4}}
 \renewcommand{\cfttabpagefont}{\songti\zihao{-4}}
-\renewcommand{\cftsecfont}{\songti\zihao{-4}} %所有标题：宋体小四
+\renewcommand{\cftsecfont}{\heiti\zihao{-4}} %一级标题黑体不加粗
 \renewcommand{\cftsubsecfont}{\songti\zihao{-4}}
 \renewcommand{\cftsubsubsecfont}{\songti\zihao{-4}}
 \renewcommand{\cftfigfont}{\songti\zihao{-4}}
@@ -118,16 +118,16 @@
 
 
 %安装思源黑体（7种字重），声明一个字体族，用\CJKfamily调用更改
-\setCJKfamilyfont{siyuanheiti}{Source Han Sans SC}[BoldFont=*-Medium]
-\newcommand*{\siyuanheiti}{\CJKfamily{siyuanheiti}}
-\newcommand*{\siyuanheitiBold}{\CJKfamily{siyuanheiti}\bfseries}
+% 改为使用标准黑体
+\newcommand*{\siyuanheiti}{\heiti}
+\newcommand*{\siyuanheitiBold}{\heiti}
 
 %章节标题设置：空格写死，这样自动生成目录才能带上空格
 \ctexset{
 	bibname = {\siyuanheitiBold\zihao{3}参考文献},
-	contentsname = {\siyuanheitiBold\zihao{3}目\hspace{2em}录},
+	contentsname = {\siyuanheitiBold\zihao{3}目\hspace{1em}录},
 	listfigurename = {\siyuanheitiBold\zihao{3}图目录},
-	listtablename = {\siyuanheitiBold\zihao{3}表目录},
+	listtablename = {\siyuanheitiBold\zihao{3}代码清单},
 	figurename = {图},
 	tablename = {表},
 	section/name = {第,章},
@@ -135,17 +135,22 @@
 	subsection/number = \arabic{section}.\arabic{subsection},
 	subsubsection/number = \arabic{section}.\arabic{subsection}.\arabic{subsubsection},
 	section/format = \centering\siyuanheiti\zihao{3}\linespread{1.3541667}\selectfont,
-	section/beforeskip = 2\baselineskip,
-	section/afterskip = 1\baselineskip,
-	subsection/format = \raggedright\siyuanheiti\zihao{4}\linespread{1.3541667}\selectfont,
-	subsection/beforeskip = 2\baselineskip,
-	subsection/afterskip = 1\baselineskip,
-	subsubsection/format = \raggedright\siyuanheiti\zihao{-4}\linespread{1.3541667}\selectfont,
-	subsubsection/beforeskip = 1\baselineskip,
-	subsubsection/afterskip = 1\baselineskip,
-	appendix/name={附\hspace{2em}录},
+	section/beforeskip = 24bp,
+	section/afterskip = 12bp,
+	section/aftername = \hspace{1em},
+	subsection/format = \siyuanheiti\zihao{4}\linespread{1.3541667}\selectfont,
+	subsection/beforeskip = 24bp,
+	subsection/afterskip = 12bp,
+	subsection/aftername = \hspace{1em},
+	subsubsection/format = \siyuanheiti\zihao{-4}\linespread{1.3541667}\selectfont,
+	subsubsection/beforeskip = 12bp,
+	subsubsection/afterskip = 12bp,
+	subsubsection/aftername = \hspace{1em},
+	appendix/name={附\hspace{1em}录},
 	appendix/number=\arabic{section}
 }
+
+\renewcommand{\lstlistlistingname}{\siyuanheitiBold\zihao{3}代码清单}
 
 % 设置标题编号深度，使 paragraph 和 subparagraph 也能编号
 \setcounter{secnumdepth}{5}
@@ -156,9 +161,8 @@
 \@addtoreset{subparagraph}{paragraph}
 \makeatother
 
-% 四级标题（paragraph）编号格式：⑴⑵⑶… (使用带括号的数字)
-% 使用文本模拟带括号的数字：(1)(2)(3)...
-\renewcommand{\theparagraph}{(\arabic{paragraph})}
+% 四级标题（paragraph）编号格式：（1）（2）（3）…
+\renewcommand{\theparagraph}{（\arabic{paragraph}）}
 
 % 五级标题（subparagraph）编号格式：①②③… (使用带圈的数字)  
 % Zapf Dingbats 字体中 \ding{192}-\ding{201} 对应 ①-⑩
@@ -166,11 +170,11 @@
 
 % 使用titlesec包重新定义paragraph和subparagraph的格式
 \RequirePackage{titlesec}
-\titleformat{\paragraph}[hang]{\raggedright\songti\zihao{-4}\linespread{1.3541667}\selectfont}{\theparagraph}{0.5em}{}
-\titlespacing{\paragraph}{0pt}{0.5\baselineskip}{0.5\baselineskip}
+\titleformat{\paragraph}[hang]{\songti\zihao{-4}\linespread{1.3541667}\selectfont}{\theparagraph}{0em}{}
+\titlespacing{\paragraph}{2\ccwd}{0pt}{0pt}
 
-\titleformat{\subparagraph}[hang]{\raggedright\songti\zihao{-4}\linespread{1.3541667}\selectfont}{\thesubparagraph}{0.5em}{}
-\titlespacing{\subparagraph}{0pt}{0.5\baselineskip}{0.5\baselineskip}
+\titleformat{\subparagraph}[hang]{\songti\zihao{-4}\linespread{1.3541667}\selectfont}{\thesubparagraph}{0.5em}{}
+\titlespacing{\subparagraph}{2\ccwd}{0pt}{0pt}
 
 %摘要的中英文标题切换
 \newif\ifAbstractEN
@@ -178,13 +182,13 @@
 	\ifAbstractEN
 	\ctexset{abstractname={\mdseries\zihao{-3}ABSTRACT}}
 	\else
-	\ctexset{abstractname={\siyuanheitiBold\zihao{3}摘\hspace{2em}要}}
+	\ctexset{abstractname={\siyuanheitiBold\zihao{3}摘\hspace{1em}要}}
 	\fi
 } 
 
 
 
-% 参考文献：使用 GB/T 7714-2005 数字顺序制，引用上角标
+% 参考文献：使用 GB/T 7714-2005 数字顺序制，引用上角标（与 ZJUTbachelor111.cls 一致）
 \RequirePackage[numbers,2005]{gbt7714}
 \AtBeginDocument{\citestyle{super}}
 
@@ -244,11 +248,11 @@
 			\includegraphics[width=0.7\linewidth]{pics/logo.png}
 		\end{figure}
 		\vspace{2\baselineskip}
-		\songti\zihao{1}\bfseries 本科生毕业论文（设计）\par
+		\songtiBold\zihao{1} 本科生毕业论文（设计）\par
 		\vspace{1\baselineskip}
-		{\siyuanheitiBold\zihao{-2}题目：}{\siyuanheitiBold\zihao{3}\underline{\makebox[18em][c]{\ThesisTitle}}}\par
+		{\heiti\zihao{3}题目：\underline{\makebox[20em][c]{\ThesisTitle}}}\par
 		\vspace{2.5\baselineskip}
-		\songti\zihao{-3}\bfseries
+		\songtiBold\zihao{-3}
 		\renewcommand{\arraystretch}{1.25}
 		\begin{tabular}{@{}ll@{}}
 			学\hspace{2em}院： & \underline{\makebox[13em][c]{\Department}} \\
@@ -267,14 +271,14 @@
 %中文摘要："摘要"二字（三号黑体，字间空2格写死，居中），下空1行，内容小四宋体1.25倍行距每段首行缩进2字符，下空1行，"关键词"（小四黑体加粗）
 \providecommand{\ZhAbstract}[2]{	
 	\AbstractENfalse\AbstractEN
-	\begin{center}\siyuanheitiBold\zihao{3}摘\hspace{2em}要\end{center}
+	\phantomsection
+	\addcontentsline{toc}{section}{摘\hspace{1em}要}
+	\begin{center}\siyuanheitiBold\zihao{3}摘\hspace{1em}要\end{center}
 	\vspace{\baselineskip}
 	{\songti\zihao{-4}\linespread{1.3541667}\selectfont\setlength{\parindent}{2\ccwd}\par
 	#1\par}
 	\vspace{\baselineskip}
 	\noindent{\siyuanheitiBold\zihao{-4}\bfseries 关键词：}{\songti\zihao{-4}#2}
-	\phantomsection
-	\addcontentsline{toc}{section}{摘\hspace{2em}要}
 	\pagebreak
 }
 
@@ -293,6 +297,8 @@
 %英文摘要：英文标题（三号Times加粗全大写，居中，左右各缩进两格），下空1行，"ABSTRACT"（三号Times加粗，居中），下空1行，内容小四Times 1.25倍行距每段首行缩进二格，下空1行，"KEY WORDS"（小四Times全大写加粗），关键词小写
 \providecommand{\EnAbstract}[2]{
 	\AbstractENtrue\AbstractEN
+	\phantomsection
+	\addcontentsline{toc}{section}{ABSTRACT}
 	\begin{center}
 		\parbox{0.92\linewidth}{\centering\zihao{3}\bfseries\MakeUppercase{\EnThesisTitle}}
 	\end{center}
@@ -304,8 +310,6 @@
 	#1\par
 	\vspace{\baselineskip}
 	\noindent{\zihao{-4}\bfseries KEY WORDS: }{\zihao{-4}\MakeLowercase{#2}}
-	\phantomsection
-	\addcontentsline{toc}{section}{ABSTRACT}	
 	\pagebreak
 }
 
@@ -318,18 +322,18 @@
 		\linespread{1.3541667}\selectfont
 		\songti\zihao{-4}
 		\phantomsection
-		\addcontentsline{toc}{section}{目\hspace{2em}录}
+		\addcontentsline{toc}{section}{目\hspace{1em}录}
 		\tableofcontents
-		
-		\pagebreak	
-		\phantomsection
-		\addcontentsline{toc}{section}{表目录}
-		\centering\listoftables
 		
 		\pagebreak	
 		\phantomsection
 		\addcontentsline{toc}{section}{图目录}
 		\centering\listoffigures
+		
+		\pagebreak	
+		\phantomsection
+		\addcontentsline{toc}{section}{代码清单}
+		\centering\lstlistoflistings
 		
 		\pagebreak	
 	}
@@ -341,8 +345,8 @@
 \providecommand{\makeAcknowledge}[1]{	
 	\clearpage
 	\phantomsection
-	\addcontentsline{toc}{section}{致\hspace{2em}谢}
-	{\centering\siyuanheitiBold\zihao{3}\linespread{1.3541667}\selectfont 致\hspace{2em}谢\par}
+	\addcontentsline{toc}{section}{致\hspace{1em}谢}
+	{\centering\siyuanheitiBold\zihao{3}\linespread{1.3541667}\selectfont 致\hspace{1em}谢\par}
 	\vspace{12bp}
 	\songti\zihao{-4}\linespread{1.3541667}\selectfont
 	\setlength{\parindent}{2\ccwd}
@@ -353,8 +357,8 @@
 \providecommand{\makeAppendix}[1]{	
 	\clearpage
 	\phantomsection
-	\addcontentsline{toc}{section}{附\hspace{2em}录}
-	{\centering\siyuanheitiBold\zihao{3}\linespread{1.3541667}\selectfont 附\hspace{2em}录\par}
+	\addcontentsline{toc}{section}{附\hspace{1em}录}
+	{\centering\siyuanheitiBold\zihao{3}\linespread{1.3541667}\selectfont 附\hspace{1em}录\par}
 	\vspace{12bp}
 	\songti\zihao{-4}\linespread{1.3541667}\selectfont
 	\setlength{\parindent}{2\ccwd}
