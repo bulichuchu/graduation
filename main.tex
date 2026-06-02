@@ -6,7 +6,8 @@
 \studentid{202203151007}
 \major{软件工程}
 \thesis{基于混合检索的图表类型推荐系统设计与实现}
-\department{计算机学院}
+\department{计算机科学与技术学院}
+\departmentsecond{（软件学院、人工智能学院）}
 \mysupervisor{孙国道}
 \class{2022软件工程}
 \submitdate{2026年6月}
@@ -34,23 +35,31 @@
 	
 %—————————————————————————————————————中文摘要———————————————————————————————————————————————	
 	\ZhAbstract{
-		随着数据可视化在科研、商业分析和公共传播等场景中的持续普及，如何将自然语言中的表达意图准确映射为合适的图表类型，已成为提升信息传达效率与可理解性的重要问题。现有研究更多聚焦于图表绘制流程和视觉设计优化，而面向自然语言输入的图表类型推荐仍面临推荐准确率不足、候选结果多样性有限、非专家用户使用门槛较高等挑战。
+		数据可视化已广泛应用于科研分析、商业决策、新闻传播和日常报告写作等场景。对于非专业用户而言，图表制作的困难往往不只来自绘图工具操作，还来自对图表类型适用场景的判断。现有研究较多关注图表绘制、图表理解和可视化美学优化，面向自然语言输入的图表类型推荐仍存在推荐准确性不足、候选结果解释性有限、用户需要反复试错等问题。围绕这一问题，本文研究基于混合检索的图表类型推荐方法，并设计实现一个支持自然语言输入、图表推荐和交互式编辑的原型系统。主要工作包括：
 		
-		针对上述问题，本文提出一条面向自然语言驱动图表类型推荐的端到端流程。首先，构建由图表样本及其文本描述组成的多模态数据集，为推荐任务训练与评测提供数据基础；其次，在推荐阶段并行采用稀疏检索与稠密检索两种互补策略，分别捕捉文本中的显式关键词线索与深层语义相似性；再次，利用倒数排序融合（Reciprocal Rank Fusion, RRF）算法整合两路检索结果，在保证推荐相关性的同时提升候选结果覆盖度与稳定性；最后，将推荐结果接入图表编辑器，支持用户将文本中的数值信息交互式转换为可视化输出并进行进一步调整。
+		（1）构建面向图表类型推荐任务的 ChartRWC 多模态数据集。针对原始图表数据在类别分布、文本描述完整性和样本可用性方面存在的不足，本文对已有图表数据进行筛选、扩展与规范化整理。该数据集为自然语言查询与图表样例之间的匹配提供了统一的数据基础，也为后续实验提供了可复用的评测对象。
 		
-		本文通过消融实验与用户调研对所提方法进行验证。实验结果表明，混合检索与融合排序策略能够有效提升图表类型推荐表现；用户调研结果进一步显示，该流程在实用性与可用性方面具有积极作用，可为自然语言到图表的智能化生成提供可落地的技术方案。
-	}{图表类型推荐，混合检索，自动图表生成，多模态数据集，数据可视化 }
+		（2）设计基于混合检索的图表类型推荐方法。本文将图表类型推荐建模为自然语言输入与候选图表样例之间的检索排序问题，同时采用稀疏检索和稠密检索两条路径。稀疏检索利用倒排索引和 TF-IDF 表征捕捉文本中的显式关键词线索，适合处理图表名称、数据字段和统计关系等直接匹配信息；稠密检索利用语义向量表示计算查询文本与图表描述之间的语义相似性，补充关键词不完全一致时的匹配能力。在此基础上，本文采用倒数排序融合（Reciprocal Rank Fusion, RRF）算法对两路检索结果进行融合，以提高候选结果的鲁棒性。
+		
+		（3）实现交互式图表类型推荐原型系统。系统围绕用户从自然语言描述到可视化结果的完整使用流程进行设计，支持用户输入包含数值关系的文本内容，并列查看稀疏检索、稠密检索和 RRF 融合排序产生的候选结果。用户可以根据推荐结果选择合适的图表类型和图表样例，并在图表编辑器中进一步修改数据、标题、颜色等内容。该设计将自动推荐与人工调整结合起来，减少用户在图表类型选择阶段的试错成本，同时保留对最终可视化结果的控制能力。
+		
+		实验评估结果表明，ChartRWC 中更丰富的图表描述能够提升稀疏检索和稠密检索在图表类型推荐任务中的表现，混合检索结合 RRF 融合排序后能够获得更稳定的候选结果。用户研究结果显示，融合推荐结果在相关性、平均贡献度和准确率等指标上表现较好，参与者也认为并列展示多路推荐结果和提供交互式编辑功能有助于降低图表选择与修改成本。研究结果说明，本文提出的基于混合检索的图表类型推荐流程能够为自然语言驱动的图表生成提供可行路径，并为非专家用户的数据可视化创作提供辅助支持。
+	}{图表类型推荐，混合检索，自动图表生成，多模态数据集，数据可视化}
 %———————————————————————————————————————end——————————————————————————————————————————————————
 
 
 
 
 %—————————————————————————————————————英文摘要———————————————————————————————————————————————	
-	\EnAbstract{With the widespread adoption of data visualization in scientific research, business analytics, and public communication, mapping textual intent to appropriate chart types has become an important problem for improving both communication efficiency and interpretability. Existing studies mainly focus on chart rendering pipelines and visual design quality, while chart type recommendation from natural language still faces limitations in recommendation accuracy, candidate diversity, and usability for non-expert users.
+	\EnAbstract{Data visualization has been widely used in scientific analysis, business decision-making, public communication, and daily report writing. For non-expert users, the difficulty of creating a chart often lies not only in operating visualization tools, but also in judging which chart type is suitable for the intended use case. Existing studies have mainly focused on chart rendering, chart understanding, and visual design optimization. Chart type recommendation from natural language still faces limitations in recommendation accuracy, result explainability, and repeated trial-and-error by users. To address this problem, this thesis studies a hybrid-retrieval-based chart type recommendation method and implements a prototype system that supports natural language input, chart recommendation, and interactive editing. The main work includes:
 	
-	This thesis proposes an end-to-end pipeline for natural-language-driven chart type recommendation. First, we construct a multimodal dataset consisting of chart samples and textual descriptions to support model development and evaluation. Second, we combine two complementary retrieval strategies, sparse retrieval and dense retrieval, to capture both explicit lexical cues and deeper semantic similarity in user input. Third, we apply Reciprocal Rank Fusion (RRF) to merge the two retrieval streams, improving ranking robustness while balancing relevance and diversity of recommended chart types. Finally, the recommendation module is integrated with a chart editor so that users can interactively transform numerical information in text into visual outputs and refine them in practice.
+	(1) A ChartRWC multimodal dataset is constructed for chart type recommendation. To address the limitations of the original chart data in category distribution, description completeness, and sample usability, this thesis filters, extends, and standardizes existing chart data. The dataset provides a unified data basis for matching natural language queries with chart examples and serves as a reusable evaluation object for subsequent experiments.
 	
-	We evaluate the proposed approach through ablation experiments and user studies. Results show that the hybrid retrieval plus fusion strategy improves recommendation quality, and user feedback further indicates clear gains in usefulness and usability. The proposed pipeline provides a practical technical path for intelligent chart generation from natural language.}{Chart Type Recommendation, Hybrid Retrieval, Automatic Chart Generation, Multimodal Dataset, Data Visualization}
+	(2) A hybrid-retrieval-based chart type recommendation method is designed. This thesis formulates chart type recommendation as a retrieval and ranking problem between a natural language input and candidate chart examples, and uses sparse retrieval and dense retrieval in parallel. Sparse retrieval uses an inverted index and TF-IDF representations to capture explicit lexical cues, which is suitable for matching chart names, data fields, and statistical relations. Dense retrieval uses semantic vector representations to measure the similarity between query texts and chart descriptions, complementing sparse retrieval when the wording is not exactly matched. Based on the two retrieval paths, Reciprocal Rank Fusion (RRF) is applied to fuse the retrieval results and improve the robustness of candidate recommendations.
+	
+	(3) An interactive prototype system is implemented. The system is designed around the complete workflow from natural language description to visual output. It allows users to enter text containing numerical relationships and compare candidate results from sparse retrieval, dense retrieval, and RRF fusion side by side. Users can select appropriate chart types and chart examples from the recommendation results, and then refine data, titles, colors, and other chart elements in the chart editor. This design combines automatic recommendation with manual adjustment, reducing the trial-and-error cost of chart type selection while preserving user control over the final visualization.
+	
+	Experimental evaluation results show that richer chart descriptions in ChartRWC improve the performance of both sparse retrieval and dense retrieval in the chart type recommendation task, and that combining hybrid retrieval with RRF produces more stable candidate rankings. The user study further shows that the fused recommendation results perform well in terms of relevance, average contribution, and precision. Participants also indicate that displaying multiple retrieval results side by side and providing an interactive editor help reduce the cost of chart selection and refinement. These results suggest that the proposed hybrid-retrieval-based recommendation pipeline provides a feasible path for natural-language-driven chart generation and can support non-expert users in data visualization creation.}{Chart Type Recommendation, Hybrid Retrieval, Automatic Chart Generation, Multimodal Dataset, Data Visualization}
 %—————————————————————————————————————————end————————————————————————————————————————————————
 
 
@@ -76,14 +85,15 @@
 	\input{parts/第四章}
 	\input{parts/第五章}
 	\input{parts/第六章}
-	\input{parts/第七章}
-	\input{parts/第八章}
 %———————————————————————————————————————end——————————————————————————————————————————————————
 
 %——————————————————————————————————————参考文献——————————————————————————————————————————————
 	\clearpage
 	\phantomsection
+	\begingroup
+	\bibliographystyle{gbt7714-2005-unsrt}
 	\bibliography{ref}
+	\endgroup
 	\addcontentsline{toc}{section}{参考文献}
 %———————————————————————————————————————end——————————————————————————————————————————————————
 
@@ -102,3 +112,4 @@
 %———————————————————————————————————————end——————————————————————————————————————————————————
 
 \end{document}
+

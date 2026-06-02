@@ -42,11 +42,15 @@
 
 \RequirePackage{caption} %标题
 % 统一图表标题：五号、加粗（中文将使用CJK主字体，英文将使用西文字体Times New Roman）
-\DeclareCaptionFont{zjutcaption}{\zihao{5}\bfseries}
+\DeclareCaptionFont{zjutcaption}{\zihao{5}\bfseries\linespread{1.25}\selectfont}
 \captionsetup{
 	font=zjutcaption, 
-	justification=centering %多行标题居中
+	justification=centering, %多行标题居中
+	singlelinecheck=false,
+	skip=0bp
 }
+\newcommand{\zjutfigcaptionen}[1]{\\{\rmfamily\zihao{5}\bfseries\linespread{1.25}\selectfont Figure~\thefigure\quad #1}}
+\newcommand{\zjuttabcaptionen}[1]{\\{\rmfamily\zihao{5}\bfseries\linespread{1.25}\selectfont Table~\thetable\quad #1}}
 
 %ref,eqref命令没有间距太丑了
 \newcommand*{\tabref}[1]{\tablename~\ref{#1}~}
@@ -60,6 +64,7 @@
 \RequirePackage{fontspec} %字体设置
 \setmainfont{Times New Roman} %西文字体Times New Roman
 \setmonofont{Courier New} %等宽字体
+\newfontfamily\zjutheaderfont{SimSun} %页眉页脚专用字体
 % 明确设置中文主字体、无衬线字体、等宽字体，并提供 \songti/\heiti 命令
 % 已在 LoadClass 中使用 fontset=windows，自动配置宋体、黑体等标准字体
 
@@ -73,10 +78,11 @@
 \hbadness=5000
 
 \RequirePackage{fancyhdr} %页眉页脚
+\setlength{\headheight}{14.5pt}
 \pagestyle{fancy} %empty不显示页眉页脚
 \fancyhf{}
-\fancyhead[C]{\centering\songti\zihao{-5}浙江工业大学本科生毕业论文（设计）} %页眉加"浙江工业大学本科生毕业论文（设计）"，字体为宋体小五号，居中
-\fancyfoot[C]{\centering\songti\zihao{-5}\thepage} %页码用宋体小五号字页面底端居中。
+\fancyhead[C]{\centering{\zjutheaderfont\fontsize{9bp}{11bp}\selectfont 浙江工业大学本科生毕业论文（设计）}} %页眉加"浙江工业大学本科生毕业论文（设计）"，字体为宋体小五号，居中
+\fancyfoot[C]{\centering{\zjutheaderfont\fontsize{9bp}{11bp}\selectfont \thepage}} %页码用宋体小五号字页面底端居中。
 
 \RequirePackage[bottom]{footmisc} %脚注紧贴页脚
 \RequirePackage{pifont} %脚注圆圈内数字
@@ -188,9 +194,9 @@
 
 
 
-% 参考文献：使用 GB/T 7714-2005 数字顺序制，引用上角标（与 ZJUTbachelor111.cls 一致）
-\RequirePackage[numbers,2005]{gbt7714}
-\AtBeginDocument{\citestyle{super}}
+% 参考文献：使用 natbib 管理引用，BibTeX 样式在 main.tex 中指定
+\RequirePackage[super,square,sort&compress]{natbib}
+\bibpunct{[}{]}{,}{s}{,}{,}
 
 %字号
 %初号 \zihao{0}
@@ -225,6 +231,7 @@
 \newcommand\StudentName{}
 \newcommand\StudentId{}
 \newcommand\Department{}
+\newcommand\DepartmentSecond{}
 \newcommand\MajorName{}
 \newcommand\ClassName{}
 \newcommand\SubmitDate{}
@@ -233,6 +240,7 @@
 \providecommand\myname[1]{\def\@myname{#1}\def\StudentName{#1}}
 \providecommand\studentid[1]{\def\@studentid{#1}\def\StudentId{#1}}
 \providecommand\department[1]{\def\@department{#1}\def\Department{#1}}
+\providecommand\departmentsecond[1]{\def\DepartmentSecond{#1}}
 \providecommand\major[1]{\def\@major{#1}\def\MajorName{#1}}
 \providecommand\class[1]{\def\@class{#1}\def\ClassName{#1}}
 \providecommand\submitdate[1]{\def\@submitdate{#1}\def\SubmitDate{#1}}
@@ -256,6 +264,7 @@
 		\renewcommand{\arraystretch}{1.25}
 		\begin{tabular}{@{}ll@{}}
 			学\hspace{2em}院： & \underline{\makebox[13em][c]{\Department}} \\
+			 & \underline{\makebox[13em][c]{\DepartmentSecond}} \\
 			专\hspace{2em}业： & \underline{\makebox[13em][c]{\MajorName}} \\
 			班\hspace{2em}级： & \underline{\makebox[13em][c]{\ClassName}} \\
 			学\hspace{2em}号： & \underline{\makebox[13em][c]{\StudentId}} \\
@@ -383,4 +392,3 @@
 \AtBeginEnvironment{thebibliography}{%
   \songti\zihao{5}\linespread{1.3541667}\selectfont
 }
-

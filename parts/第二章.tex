@@ -5,6 +5,15 @@
 
 自动图表生成面向的核心问题是如何把用户表达的分析意图稳定地映射为可视化结构。早期研究通常建立在结构化数据输入之上，系统预设字段语义并在候选图表空间内完成匹配与渲染~\cite{dibia_lida_2023}。这一路径在工程实践中具有较高可控性，因为输入模式、图表约束和输出格式都可被显式定义。围绕该路径形成的代表性工作，一部分聚焦“文本到图表”的生成链路~\cite{zhao_ct2c-qa_2024,rashid_text2chart_2022}，另一部分聚焦“表格到可视化”的推理链路~\cite{jain_doc2chart_2025}。两类方法在实现细节上有所差异，但共同前提都指向输入数据具有较好的规整性与可解析性。
 
+LIDA 将数据摘要、分析目标探索、可视化代码生成与信息图生成组织为连续流水线，如图\ref{fig:related_lida} 所示。这类系统体现了当前自动图表生成研究的典型思路：通过模块化流程将数据理解、用户目标和图表渲染连接起来，使自然语言能够参与可视化生成过程。
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{pics/related_lida_modules.jpg}
+	\caption[LIDA 自动可视化生成流程]{LIDA 自动可视化生成流程\zjutfigcaptionen{LIDA Automatic Visualization Generation Workflow~\cite{dibia_lida_2023}}}
+	\label{fig:related_lida}
+\end{figure}
+
 当输入由单一表格扩展到文档、图像或多模态线索时，系统能力边界开始显现。已有研究显示，即便引入更强的跨模态理解机制，许多方法仍在不同程度上依赖既有数据结构~\cite{latif_kori_2022,shuai_deepvis_2025}。这种依赖使方法在“结构明确、目标单一”的任务下表现较好~\cite{luo_deepeye_2018,cui_text--viz_2020}，但在“语义含糊、意图混合”的真实写作场景中容易出现推荐失配。根本原因在于，用户文本中的比较关系、强调重点、时间语境和叙述目标往往交织出现，而这些信息难以通过单一字段映射被完整刻画~\cite{masry_unichart_2023}。
 
 研究重心随之由“静态映射”转向“生成与推理协同”。一方面，图表到代码、文本到图表等任务为自动化可视化提供了更完整的工具~\cite{yang_chartmimic_2025,wu_plot2code_2025}；另一方面，多模态大语言模型的快速发展提升了系统对复杂视觉模式与上下文线索的利用能力~\cite{openai_gpt-4vision_2023,gemini_family_2025,anthropic_introducing_2024}。以 LLaVA 系列与 ChartLlama 为代表的工作~\cite{liu_visual_2023,liu_improved_2024,han_chartllama_2023}，以及 Qwen-VL 技术路线~\cite{bai_qwen_technical_2023}，都在一定程度上缓解了早期方法对人工规则的依赖，使系统能够在更弱结构先验下完成图表理解与生成。
@@ -20,7 +29,37 @@
 
 混合数据集因此成为当前较具可行性的折中方案。其核心思路是将合成数据用于扩展规模和覆盖基础模式，将真实数据用于补足分布多样性和语义复杂性，从而在训练阶段形成更平衡的数据分布~\cite{liu_deplot_2023,meng_chartassistant_2024,liu_matcha_2023}。这一路径有助于降低模型对单一数据生成机制的依赖，也有助于提升跨场景迁移能力。对本研究关注的“文本到图表类型推荐”任务而言，混合数据策略同样具有现实意义，因为用户输入文本经常同时包含结构化线索与非结构化语义，需要训练数据能够覆盖两类信息的耦合关系。
 
-从数据形态看，当前图表数据集已从单一图像样本扩展为多模态样本单元，常见组成包括位图、矢量描述、表格数据、文本说明与程序代码。数据字段的丰富化使模型能够在训练中同时学习视觉结构、语言语义与程序表达的对应关系。近期工作继续扩大图表类型覆盖与元数据维度~\cite{wang_omni-chart-600k_2025,liu_mmc_2024}，并在任务层面支持更复杂的生成与理解目标。以 Text2Chart31 为例，其统一描述、代码、数据表与图表的组织方式~\cite{zadeh_text2chart31_2024}，为研究者开展跨模态对齐、可解释推荐与端到端生成提供了更完整的数据基础。
+	从数据形态看，当前图表数据集已从单一图像样本扩展为多模态样本单元，常见组成包括位图、矢量描述、表格数据、文本说明与程序代码。数据字段的丰富化使模型能够在训练中同时学习视觉结构、语言语义与程序表达的对应关系。近期工作继续扩大图表类型覆盖与元数据维度~\cite{wang_omni-chart-600k_2025,liu_mmc_2024}，并在任务层面支持更复杂的生成与理解目标。以 Text2Chart31 为例，其统一描述、代码、数据表与图表的组织方式~\cite{zadeh_text2chart31_2024}，为研究者开展跨模态对齐、可解释推荐与端到端生成提供了更完整的数据基础。
+
+	图\ref{fig:related_text2chart31} 展示了 Text2Chart31 中覆盖的部分图表类型。该图说明当前数据集构建已经开始从少数基础图表扩展到更复杂的统计分布图、网格图和三维图表。对本文任务而言，图表类型覆盖越丰富，推荐系统越需要在文本意图、数据关系和图表表达方式之间建立更稳定的对应关系。
+
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=0.72\textwidth]{pics/related_text2chart31_types.png}
+		\caption[Text2Chart31 图表类型示例]{Text2Chart31 图表类型示例\zjutfigcaptionen{Example Chart Types in Text2Chart31~\cite{zadeh_text2chart31_2024}}}
+		\label{fig:related_text2chart31}
+	\end{figure}
+
+	为进一步说明现有数据集与本文任务之间的差异，表\ref{tab:dataset_comparison} 对代表性图表数据集进行简要对比。可以看到，已有数据集主要服务于图表问答、说明生成和代码生成等任务，而本文构建的 ChartRWC 更强调文本描述、图表类型与候选样例之间的对应关系，能够直接支撑自然语言输入下的图表类型推荐与检索评估。
+
+	\begin{table}[htbp]
+		\centering
+		\caption[代表性图表数据集对比]{代表性图表数据集对比\zjuttabcaptionen{Comparison of Representative Chart Datasets}}
+		\label{tab:dataset_comparison}
+		\resizebox{\textwidth}{!}{
+		\begin{tabular}{llll}
+			\toprule
+			数据集 & 数据形态 & 主要任务 & 与本文任务的关系 \\
+			\midrule
+			DVQA~\cite{kafle_dvqa_2018} & 图表图像、问答对 & 图表视觉问答 & 缺少推荐语境 \\
+			VisText~\cite{tang_vistext_2023} & 图表、数据表、文本说明 & 图表说明生成 & 可提供文本线索 \\
+			ChartQA~\cite{masry_chartqa_2022} & 图表图像、数据表、问答对 & 图表问答推理 & 偏向问答任务 \\
+			Text2Chart31~\cite{zadeh_text2chart31_2024} & 文本、代码、数据表、图表 & 文本到图表生成 & 偏向端到端生成 \\
+			ChartGen~\cite{kondic_chartgen_2025} & 图表图像、代码、结构化数据 & 图表理解与生成 & 类别分布不均衡 \\
+			\textbf{ChartRWC (Ours)} & \textbf{图表图像、结构化数据、元数据、文本描述} & \textbf{图表类型推荐与检索评估} & \textbf{直接面向本文任务} \\
+			\bottomrule
+		\end{tabular}}
+	\end{table}
 
 
 \subsection{图表创作工具}
@@ -28,6 +67,13 @@
 图表创作工具的发展路线反映了可视化系统从“高效率生产”向“高表达能力与低门槛协同”演进的过程。早期主流工具强调通过界面化配置快速完成标准图表制作，例如 Tableau 等系统通过字段拖拽与视觉通道映射降低了入门难度~\cite{tableau_business_2025}。这类工具在报表场景和常规分析任务中具有较高实用性，但其交互逻辑通常围绕预设图表语法展开，当用户需要表达复杂叙事结构或非常规视觉风格时，扩展能力会受到限制。
 
 后续研究开始将“表达性”作为工具设计的关键目标。Data-Driven Guides、DataInk 和 Data Illustrator 等系统~\cite{kim_data-driven_2016,xia_dataink_2018,liu_data_2018}，通过更细粒度的图形控制机制，使用户能够在数据约束下定义图元关系、重复策略与布局规则。与传统模板式工具相比，这类系统提升了可视化设计空间的可探索性，也使用户能够在准确编码数据的同时兼顾视觉叙事。然而，表达能力提升常常伴随交互复杂度上升，非专家用户在参数理解、约束设置与设计决策上仍需较高学习成本。
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{pics/related_data_illustrator_interface.png}
+	\caption[Data Illustrator 界面组件]{Data Illustrator 界面组件\zjutfigcaptionen{Data Illustrator Interface Components~\cite{liu_data_2018}}}
+	\label{fig:related_data_illustrator}
+\end{figure}
 
 编程式可视化工具提供了另一条路径。D3、ECharts 与 Vega-Lite~\cite{bostock_d3_2011,li_echarts_2018,satyanarayan_vega-lite_2016} 通过声明式或命令式方式描述视觉编码逻辑，具备更强可复用性与可扩展性，能够支持交互行为、动画过渡与复杂组合图的精细控制。该路径对工程场景十分友好，适合与 Web 系统、分析平台和自动化流程集成。代价在于，用户需要具备编程基础，并理解图表语法、数据绑定机制与运行环境配置，使用门槛显著高于可视化界面工具。
 
